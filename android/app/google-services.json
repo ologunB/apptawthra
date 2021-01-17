@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1048151264866",
+    "project_id": "tawthra",
+    "storage_bucket": "tawthra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048151264866:android:03e50722edee232e33cb3b",
+        "android_client_info": {
+          "package_name": "com.ologunb.apptawthra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048151264866-kj8qpjpkla29ff0loe1obncilr7s1b91.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ologunb.apptawthra",
+            "certificate_hash": "c6e94cdc70d739c33571dad023b3455635423255"
+          }
+        },
+        {
+          "client_id": "1048151264866-83b3r1jcp02u2vrh0rp4pgqrjgi3ol2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPv3UPtjy97oJ0y6cr3qY-tnful3WWjnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048151264866-83b3r1jcp02u2vrh0rp4pgqrjgi3ol2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
