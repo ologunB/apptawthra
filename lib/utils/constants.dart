@@ -41,7 +41,7 @@ showSnackBar(context, String title, String msg, {int duration = 4}) {
   ).show(context);
 }
 
-RoundedRectangleBorder Box30Edge = RoundedRectangleBorder(
+RoundedRectangleBorder myBox30Edge = RoundedRectangleBorder(
   borderRadius: BorderRadius.only(
     topLeft: Radius.circular(30),
     topRight: Radius.circular(30),
@@ -98,7 +98,8 @@ String admobID = Platform.isAndroid
     ? "ca-app-pub-1874161073042155~2216294178"
     : "ca-app-pub-1874161073042155/7360809648";
 // demo
-String adUnitId = "ca-app-pub-1874161073042155/7085477472";
+String adUnitId =  Platform.isAndroid
+    ?"ca-app-pub-1874161073042155/7737888327" : "";
 
 String greeting() {
   var hour = DateTime.now().hour;

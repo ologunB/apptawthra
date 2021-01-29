@@ -1,5 +1,6 @@
 import 'package:apptawthra/models/twitter_acc.dart';
 import 'package:apptawthra/widgets/custom_dialog.dart';
+import 'package:apptawthra/widgets/show_alert_dialog.dart';
 import 'package:apptawthra/widgets/show_exception_alert_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -246,7 +247,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                                           ),
                                           child: Text(
                                             accountType == 0 && selectedAdminAccount != null
-                                                ? "@" + selectedAdminAccount.screen_name
+                                                ? "@" + selectedAdminAccount.screenName
                                                 : "TAWTRHA " + "Account".tr(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -299,7 +300,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                                           ),
                                           child: Text(
                                             accountType == 1 && selectedUserAccount != null
-                                                ? "@" + selectedUserAccount.screen_name
+                                                ? "@" + selectedUserAccount.screenName
                                                 : "Customer Account".tr(),
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.nunito(
@@ -541,7 +542,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                         builder: (context) => CustomDialog(
                             title: "Confirmation".tr(),
                             body: Text(
-                              "Are you sure you want to create Package 3 on ${sele.screen_name}?"
+                              "Are you sure you want to create Package 3 on ${sele.screenName}?"
                                   .tr(),
                               style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600),
                             ),
@@ -619,7 +620,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                                   ? Styles.appBackground
                                   : null,
                               leading: CachedImage(size: 40, imageUrl: "kk"),
-                              title: Text("@" + userKeys[index].screen_name,
+                              title: Text("@" + userKeys[index].screenName,
                                   style: GoogleFonts.nunito(
                                       fontSize: 16, fontWeight: FontWeight.w600)),
                               onTap: () {
@@ -678,7 +679,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                               ? Styles.appBackground
                               : null,
                           leading: CachedImage(size: 40, imageUrl: "kk"),
-                          title: Text("@" + adminKeys[index].screen_name,
+                          title: Text("@" + adminKeys[index].screenName,
                               style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600)),
                           onTap: () {
                             accountType = 0;
@@ -708,22 +709,23 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
     }
 
     Map<String, dynamic> mData = Map();
-    mData.putIfAbsent("account_type", () => types[accountType]);
-    mData.putIfAbsent("account_details", () => sele.toJson());
-    mData.putIfAbsent("message", () => textController.text);
-    mData.putIfAbsent("package", () => "Package 3");
+    mData.putIfAbsent("username", () => sele.screenName);
+    mData.putIfAbsent("package_name", () => "Package 3");
     mData.putIfAbsent("program", () => "Program ${alphabets[widget.program]}");
+    mData.putIfAbsent("tweet_text", () => textController.text);
+    mData.putIfAbsent("number_of_tweets_per_day",
+        () => int.parse(getPackages()[2].programTitles[widget.program]));
+    mData.putIfAbsent("period", () => convertToDays(widget.subPeriod));
+    mData.putIfAbsent("scheduled_at", () => selectedTimeDate);
     mData.putIfAbsent("images", () => images);
-    mData.putIfAbsent(
-        "daily rate", () => getPackages()[2].programDescs[widget.program]);
-    mData.putIfAbsent("id", () => randomString());
-    mData.putIfAbsent("desc", () =>  widget.subPeriod);
+    mData.putIfAbsent("access_token", () => sele.token);
+    mData.putIfAbsent("access_token_secret", () => sele.tokenSecret);
+    mData.putIfAbsent("desc", () => getPackages()[2].programDescs[widget.program]);
     mData.putIfAbsent("uid", () => FirebaseAuth.instance.currentUser.uid);
     mData.putIfAbsent("price", () => getPackages()[2].programPrices[widget.program]);
     mData.putIfAbsent("status", () => "Pending");
-    mData.putIfAbsent("start_time", () => selectedTimeDate);
     mData.putIfAbsent("Timestamp", () => timeStamp);
-    mData.putIfAbsent("tweet_id", () => "null");
+    mData.putIfAbsent("id", () => 0);
 
     if (accountType == 0) {
       mData.update("status", (a) => "Awaiting Approval");
@@ -746,7 +748,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                 from: selectedTimeDate,
                 package: "Package 3",
                 program: "Program ${alphabets[widget.program]}",
-                account: sele.screen_name));
+                account: sele.screenName));
       }).catchError((e) {
         setState(() {
           isLoading = false;
@@ -756,25 +758,13 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
       return;
     }
     try {
-      Map data = {
-        "username": sele.screen_name,
-        "package_name": "Package 3",
-        "program": widget.program.toString(),
-        "tweet_text": textController.text,
-        "number_of_tweets_per_day": getPackages()[2].programTitles[widget.program],
-        "period": convertToDays(widget.subPeriod),
-        "scheduled_at": selectedTimeDate,
-        "access_token": sele.token,
-        "access_token_secret": sele.token_secret,
-        "images": images
-      };
       var dataRes = await dio.post("https://thatra.herokuapp.com/api/v1/package1/",
-          options: defaultOptions, data: data);
+          options: defaultOptions, data: mData);
 
       print(dataRes);
       switch (dataRes.statusCode) {
         case 201:
-          mData.update("tweet_id", (a) => dataRes.data["id"]);
+          mData.update("id", (a) => dataRes.data["id"]);
           try {
             FirebaseFirestore.instance
                 .collection("Utils")
@@ -789,7 +779,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
                       from: selectedTimeDate,
                       package: "Package 3",
                       program: "Program ${alphabets[widget.program]}",
-                      account: sele.screen_name));
+                      account: sele.screenName));
             }).catchError((e) {
               setState(() {
                 isLoading = false;
@@ -808,18 +798,28 @@ class _CreateTweetScreenState extends State<CreateTweetScreen3> {
           setState(() {
             isLoading = false;
           });
-          throw dataRes.data["message"] ?? "Unknown Error";
+          showAlertDialog(
+              context: context,
+              content: dataRes.data["message"] ?? "Unknown Error",
+              title: "Error",
+              defaultActionText: "OK");
       }
     } catch (e) {
       print(e);
       setState(() {
         isLoading = false;
       });
+      showAlertDialog(
+          context: context,
+          content: DioErrorUtil.handleError(e),
+          title: "Error",
+          defaultActionText: "OK");
       throw DioErrorUtil.handleError(e);
     }
   }
 
   List<String> libImages;
+
   addImageFromLib(BuildContext context) {
     showModalBottomSheet(
         //   isScrollControlled: true,

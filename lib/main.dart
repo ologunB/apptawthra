@@ -1,4 +1,4 @@
-import 'package:apptawthra/views/pack1/create_tweet.dart';
+import 'package:apptawthra/utils/constants.dart';
 import 'package:apptawthra/views/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_admob/firebase_admob.dart';
@@ -10,7 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseAdMob.instance.initialize(appId: "ca-app-pub-1874161073042155~2216294178");
+  FirebaseAdMob.instance.initialize(appId: admobID);
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(userDetails);

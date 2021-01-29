@@ -208,6 +208,8 @@ class _TypeSelectorState extends State<TypeSelector5> {
                 : isLoading
                     ? null
                     : () async {
+              moveTo(context,  CreateTweetScreen5(program: selectedIndex));
+              return;
                         await showDialog(
                             context: context,
                             builder: (context) => CustomDialog(

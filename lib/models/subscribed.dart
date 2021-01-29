@@ -7,11 +7,14 @@ class Subscribed {
   String _desc;
   String _starting;
   String _price;
-  Map _account;
-  String _tweetId;
+  int _period;
   String _timeStamp;
   String _uid;
-  String _noOftweets;
+  int _id;
+  int _noOftweets;
+  String _username;
+  String _accessToken;
+  String _accessTokenSecret;
 
   String get package => _package;
 
@@ -21,51 +24,67 @@ class Subscribed {
 
   String get status => _status;
 
-  Map get account => _account;
-
-  String get message => _text;
+  String get text => _text;
 
   String get program => _program;
 
-  String get noOftweets => _noOftweets;
+  int get noOftweets => _noOftweets;
 
   String get desc => _desc;
 
-  String get tweetId => _tweetId;
+  String get username => _username;
+
+  int get period => _period;
 
   String get timeStamp => _timeStamp;
+
+  String get accessToken => _accessToken;
+
+  String get accessTokenSecret => _accessTokenSecret;
+
+  int get id => _id;
 
   String get uid => _uid;
 
   List get images => _images;
 
   Subscribed.map(json) {
-    this._package = json["package"];
-    this._status = json["status"];
+    this._package = json["package_name"];
     this._program = json["program"];
-    this._account = json["account_details"];
+    this._username = json["username"];
+    this._text = json["tweet_text"];
+    this._noOftweets = json["number_of_tweets_per_day"];
+    this._starting = json["scheduled_at"];
+    this._images = json["images"];
+    this._accessToken = json["access_token"];
+    this._accessTokenSecret = json["access_token_secret"];
     this._price = json["price"];
-    this._starting = json["start_time"];
-    this._text = json["message"];
-    this._tweetId = json["tweet_id"].toString();
-    this._images = json["images"] ?? [];
+    this._status = json["status"];
+    this._period = json["period"];
     this._desc = json["desc"] ?? "";
-    this._noOftweets = json["daily rate"].toString();
     this._timeStamp = json["Timestamp"].toString();
     this._uid = json["uid"];
+    this._id = json["id"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['package'] = this.package;
-    data['status'] = this.status;
-    data['account_details'] = this.account;
-    data['uid'] = this.uid;
+    data['package_name'] = this.package;
     data['program'] = this.program;
-    data['start_time'] = this.startTime;
-    data['Timestamp'] = this.timeStamp;
-    data['message'] = this._text;
+    data['username'] = this.username;
+    data['tweet_text'] = this.text;
+    data['number_of_tweets_per_day'] = this.noOftweets;
+    data['scheduled_at'] = this.startTime;
     data['images'] = this.images;
+    data['access_token'] = this.accessToken;
+    data['access_token_secret'] = this.accessTokenSecret;
+    data['price'] = this.price;
+    data['status'] = this.status;
+    data['period'] = this.period;
+    data['desc'] = this.desc;
+    data['Timestamp'] = this.timeStamp;
+    data['uid'] = this.uid;
+    data['id'] = this.id;
     return data;
   }
 }

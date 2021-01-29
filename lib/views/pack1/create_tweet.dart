@@ -1,5 +1,6 @@
 import 'package:apptawthra/models/twitter_acc.dart';
 import 'package:apptawthra/widgets/custom_dialog.dart';
+import 'package:apptawthra/widgets/show_alert_dialog.dart';
 import 'package:apptawthra/widgets/show_exception_alert_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:apptawthra/models/package.dart';
@@ -52,7 +53,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
         'https://api.twitter.com/oauth/authorize', // resource owner authorization
         'https://api.twitter.com/oauth/access_token', // token credentials request
         oauth1.SignatureMethods.hmacSha1 // signature method
-        );
+    );
 
     // define client credentials (consumer keys)
     const String apiKey = '17Exv61ua6N5GrrRgHy22ltub';
@@ -233,41 +234,41 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                                 }
                                 return Expanded(
                                     child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Material(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                      color: accountType == 0 && selectedAdminAccount != null
-                                          ? Styles.appPrimaryColor
-                                          : Styles.appBackground,
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (adminKeys.isEmpty) {
-                                            showSnackBar(context, "Alert", "No Admin Account");
-                                            return;
-                                          }
-                                          addAdminAccount(context);
-                                        },
-                                        child: AnimatedContainer(
-                                          duration: Duration(seconds: 2),
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.grey[300]),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Material(
+                                          shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10.0),
                                           ),
-                                          child: Text(
-                                            accountType == 0 && selectedAdminAccount != null
-                                                ? "@" + selectedAdminAccount.screen_name
-                                                : "TAWTRHA " + "Account".tr(),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 14, fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      )),
-                                ));
+                                          color: accountType == 0 && selectedAdminAccount != null
+                                              ? Styles.appPrimaryColor
+                                              : Styles.appBackground,
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (adminKeys.isEmpty) {
+                                                showSnackBar(context, "Alert", "No Admin Account");
+                                                return;
+                                              }
+                                              addAdminAccount(context);
+                                            },
+                                            child: AnimatedContainer(
+                                              duration: Duration(seconds: 2),
+                                              padding:
+                                              EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey[300]),
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              child: Text(
+                                                accountType == 0 && selectedAdminAccount != null
+                                                    ? "@" + selectedAdminAccount.screenName
+                                                    : "TAWTRHA " + "Account".tr(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 14, fontWeight: FontWeight.w600),
+                                              ),
+                                            ),
+                                          )),
+                                    ));
                             }
                           }),
                       horizontalSpaceSmall,
@@ -291,36 +292,36 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                                 }
                                 return Expanded(
                                     child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Material(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                      color: accountType == 1 && selectedUserAccount != null
-                                          ? Styles.appPrimaryColor
-                                          : Styles.appBackground,
-                                      child: InkWell(
-                                        onTap: () {
-                                          addUserAccount(context);
-                                        },
-                                        child: Container(
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.grey[300]),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Material(
+                                          shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10.0),
                                           ),
-                                          child: Text(
-                                            accountType == 1 && selectedUserAccount != null
-                                                ? "@" + selectedUserAccount.screen_name
-                                                : "Customer Account".tr(),
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.nunito(
-                                                fontSize: 14, fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      )),
-                                ));
+                                          color: accountType == 1 && selectedUserAccount != null
+                                              ? Styles.appPrimaryColor
+                                              : Styles.appBackground,
+                                          child: InkWell(
+                                            onTap: () {
+                                              addUserAccount(context);
+                                            },
+                                            child: Container(
+                                              padding:
+                                              EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey[300]),
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              child: Text(
+                                                accountType == 1 && selectedUserAccount != null
+                                                    ? "@" + selectedUserAccount.screenName
+                                                    : "Customer Account".tr(),
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.nunito(
+                                                    fontSize: 14, fontWeight: FontWeight.w600),
+                                              ),
+                                            ),
+                                          )),
+                                    ));
                             }
                           })
                     ],
@@ -355,84 +356,84 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                       widget.program == 2 || widget.program == 3
                           ? SizedBox()
                           : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                selectedPictures.isEmpty
-                                    ? SizedBox()
-                                    : Expanded(
-                                        child: Container(
-                                          height: 150,
-                                          child: ListView.builder(
-                                              itemCount: selectedPictures.length,
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              itemBuilder: (context, index) {
-                                                return Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(15.0),
-                                                          child:
-                                                              Image.file(selectedPictures[index]),
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            selectedPictures
-                                                                .remove(selectedPictures[index]);
-                                                            images.removeAt(index);
-                                                            setState(() {});
-                                                          },
-                                                          child:
-                                                              Icon(Icons.cancel, color: Colors.red),
-                                                        ),
-                                                        Align(
-                                                            child: Container(
-                                                          color: Colors.white,
-                                                          padding: EdgeInsets.all(5),
-                                                          child: Text(
-                                                            (index + 1).toString(),
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                            ),
-                                                          ),
-                                                        )),
-                                                      ],
-                                                    ));
-                                              }),
-                                        ),
-                                      ),
-                                selectedPictures.length == 1 && widget.program == 0
-                                    ? SizedBox()
-                                    : Container(
-                                        height: 100,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Styles.appBackground,
-                                        ),
-                                        child: InkWell(
-                                            onTap: () {
-                                              getImageGallery(context);
-                                            },
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.add,
-                                                  size: 40,
-                                                ),
-                                                verticalSpaceTiny,
-                                                Text(
-                                                  "Add Image".tr(),
-                                                  style: GoogleFonts.nunito(fontSize: 12),
-                                                )
-                                              ],
-                                            )),
-                                      ),
-                              ],
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          selectedPictures.isEmpty
+                              ? SizedBox()
+                              : Expanded(
+                            child: Container(
+                              height: 150,
+                              child: ListView.builder(
+                                  itemCount: selectedPictures.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                              child:
+                                              Image.file(selectedPictures[index]),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                selectedPictures
+                                                    .remove(selectedPictures[index]);
+                                                images.removeAt(index);
+                                                setState(() {});
+                                              },
+                                              child:
+                                              Icon(Icons.cancel, color: Colors.red),
+                                            ),
+                                            Align(
+                                                child: Container(
+                                                  color: Colors.white,
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Text(
+                                                    (index + 1).toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                )),
+                                          ],
+                                        ));
+                                  }),
                             ),
+                          ),
+                          selectedPictures.length == 1 && widget.program == 0
+                              ? SizedBox()
+                              : Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Styles.appBackground,
+                            ),
+                            child: InkWell(
+                                onTap: () {
+                                  getImageGallery(context);
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      size: 40,
+                                    ),
+                                    verticalSpaceTiny,
+                                    Text(
+                                      "Add Image".tr(),
+                                      style: GoogleFonts.nunito(fontSize: 12),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           Text("Choose Time:".tr(),
@@ -512,17 +513,20 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                     offKeyboard(context);
                     showDialog(
                         context: context,
-                        builder: (context) => CustomDialog(
-                            title: "Confirmation".tr(),
-                            body: Text(
-                              "Are you sure you want to create Package 1 on ${sele.screen_name}?"
-                                  .tr(),
-                              style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                            onClicked: () async {
-                              completeCreateATweet(_scaffoldKey.currentContext);
-                            },
-                            context: context));
+                        builder: (context) =>
+                            CustomDialog(
+                                title: "Confirmation".tr(),
+                                body: Text(
+                                  "Are you sure you want to create Package 1 on ${sele
+                                      .screenName}?"
+                                      .tr(),
+                                  style: GoogleFonts.nunito(
+                                      fontSize: 16, fontWeight: FontWeight.w600),
+                                ),
+                                onClicked: () async {
+                                  completeCreateATweet(_scaffoldKey.currentContext);
+                                },
+                                context: context));
                   }),
             ),
             key: _scaffoldKey,
@@ -568,7 +572,8 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
 
     await showDialog(
         context: context,
-        builder: (context) => StatefulBuilder(builder: (context, _setState) {
+        builder: (context) =>
+            StatefulBuilder(builder: (context, _setState) {
               return AlertDialog(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -590,12 +595,12 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                           itemBuilder: (context, index) {
                             return ListTile(
                               tileColor: selectedUserAccount != null &&
-                                      selectedUserAccount == userKeys[index] &&
-                                      accountType == 1
+                                  selectedUserAccount == userKeys[index] &&
+                                  accountType == 1
                                   ? Styles.appBackground
                                   : null,
                               leading: CachedImage(size: 40, imageUrl: "kk"),
-                              title: Text("@" + userKeys[index].screen_name,
+                              title: Text("@" + userKeys[index].screenName,
                                   style: GoogleFonts.nunito(
                                       fontSize: 16, fontWeight: FontWeight.w600)),
                               onTap: () {
@@ -632,7 +637,8 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
 
     showDialog(
         context: context,
-        builder: (context) => StatefulBuilder(builder: (context, _setState) {
+        builder: (context) =>
+            StatefulBuilder(builder: (context, _setState) {
               return AlertDialog(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -651,12 +657,12 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           tileColor: selectedAdminAccount != null &&
-                                  selectedAdminAccount == adminKeys[index] &&
-                                  accountType == 0
+                              selectedAdminAccount == adminKeys[index] &&
+                              accountType == 0
                               ? Styles.appBackground
                               : null,
                           leading: CachedImage(size: 40, imageUrl: "kk"),
-                          title: Text("@" + adminKeys[index].screen_name,
+                          title: Text("@" + adminKeys[index].screenName,
                               style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600)),
                           onTap: () {
                             accountType = 0;
@@ -673,7 +679,9 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
 
   void completeCreateATweet(context) async {
     Navigator.pop(context);
-    int timeStamp = DateTime.now().microsecondsSinceEpoch;
+    int timeStamp = DateTime
+        .now()
+        .microsecondsSinceEpoch;
 
     setState(() {
       isLoading = true;
@@ -686,21 +694,22 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
     }
 
     Map<String, dynamic> mData = Map();
-    mData.putIfAbsent("account_type", () => types[accountType]);
-    mData.putIfAbsent("account_details", () => sele.toJson());
-    mData.putIfAbsent("message", () => textController.text);
-    mData.putIfAbsent("package", () => "Package 1");
-    mData.putIfAbsent("daily rate", () => 1);
+    mData.putIfAbsent("username", () => sele.screenName);
+    mData.putIfAbsent("package_name", () => "Package 1");
     mData.putIfAbsent("program", () => "Program ${alphabets[widget.program]}");
+    mData.putIfAbsent("tweet_text", () => textController.text);
+    mData.putIfAbsent("number_of_tweets_per_day", () => 1);
+    mData.putIfAbsent("period", () => widget.program == 3 ? 30 : 365);
+    mData.putIfAbsent("scheduled_at", () => selectedTimeDate);
     mData.putIfAbsent("images", () => images);
-    mData.putIfAbsent("id", () => randomString());
+    mData.putIfAbsent("access_token", () => sele.token);
+    mData.putIfAbsent("access_token_secret", () => sele.tokenSecret);
     mData.putIfAbsent("desc", () => getPackages()[0].programDescs[widget.program]);
     mData.putIfAbsent("uid", () => FirebaseAuth.instance.currentUser.uid);
     mData.putIfAbsent("price", () => getPackages()[0].programPrices[widget.program]);
     mData.putIfAbsent("status", () => "Pending");
-    mData.putIfAbsent("start_time", () => selectedTimeDate);
     mData.putIfAbsent("Timestamp", () => timeStamp);
-    mData.putIfAbsent("tweet_id", () => "null");
+    mData.putIfAbsent("id", () => 0);
 
     if (accountType == 0) {
       mData.update("status", (a) => "Awaiting Approval");
@@ -723,7 +732,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                 from: selectedTimeDate,
                 package: "Package 1",
                 program: "Program ${alphabets[widget.program]}",
-                account: sele.screen_name));
+                account: sele.screenName));
       }).catchError((e) {
         setState(() {
           isLoading = false;
@@ -733,25 +742,13 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
       return;
     }
     try {
-      Map data = {
-        "username": sele.screen_name,
-        "package_name": "Package 1",
-        "program": widget.program.toString(),
-        "tweet_text": textController.text,
-        "number_of_tweets_per_day": 1,
-        "period": widget.program == 3 ? 30.toString() : 365.toString(),
-        "scheduled_at": selectedTimeDate,
-        "access_token": sele.token,
-        "access_token_secret": sele.token_secret,
-        "images": images
-      };
       var dataRes = await dio.post("https://thatra.herokuapp.com/api/v1/package1/",
-          options: defaultOptions, data: data);
+          options: defaultOptions, data: mData);
 
       print(dataRes);
       switch (dataRes.statusCode) {
         case 201:
-          mData.update("tweet_id", (a) => dataRes.data["id"]);
+          mData.update("id", (a) => dataRes.data["id"]);
           try {
             FirebaseFirestore.instance
                 .collection("Utils")
@@ -766,7 +763,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
                       from: selectedTimeDate,
                       package: "Package 1",
                       program: "Program ${alphabets[widget.program]}",
-                      account: sele.screen_name));
+                      account: sele.screenName));
             }).catchError((e) {
               setState(() {
                 isLoading = false;
@@ -785,13 +782,22 @@ class _CreateTweetScreenState extends State<CreateTweetScreen1> {
           setState(() {
             isLoading = false;
           });
-          throw dataRes.data["message"] ?? "Unknown Error";
+          showAlertDialog(
+              context: context,
+              content: dataRes.data["message"] ?? "Unknown Error",
+              title: "Error",
+              defaultActionText: "OK");
       }
     } catch (e) {
       print(e);
       setState(() {
         isLoading = false;
       });
+      showAlertDialog(
+          context: context,
+          content: DioErrorUtil.handleError(e),
+          title: "Error",
+          defaultActionText: "OK");
       throw DioErrorUtil.handleError(e);
     }
   }

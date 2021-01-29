@@ -12,9 +12,11 @@ import 'package:apptawthra/widgets/network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:translator/translator.dart';
+import 'package:loading_overlay/loading_overlay.dart';
+import 'package:translator/translator.dart';
 
 class HomeScreen extends StatefulWidget {
   bool isLoggedIn = IS_LOGGED_IN;
@@ -27,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int presentLang;
-  //final translator = GoogleTranslator();
+  final translator = GoogleTranslator();
 
   @override
   void initState() {
@@ -40,18 +42,69 @@ class _HomeScreenState extends State<HomeScreen> {
   void getDetails() async {
     DocumentSnapshot doc =
         await FirebaseFirestore.instance.collection("Utils").doc("Details").get();
-    String de = doc.data()["App Description"];
+    var data = doc.data();
+    String de = data["App Description"];
 
-    appDesc = de;
-    setState(() {});
-
-  /*  await translator
+    await translator
         .translate(de, to: EasyLocalization.of(context).locale.languageCode)
         .then((value) {
       appDesc = value.text;
       setState(() {});
-    });*/
+    });
+
+    getPackages()[0].programPrices = [
+      data["pack1ap"],
+      data["pack1bp"],
+      data["pack1cp"],
+      data["pack1dp"]
+    ];
+    getPackages()[0].programDescs = [
+      data["pack1ad"],
+      data["pack1bd"],
+      data["pack1cd"],
+      data["pack1dd"]
+    ];
+    getPackages()[1].programPrices = [
+      data["pack2a"],
+      data["pack2b"],
+      data["pack2c"],
+      data["pack2d"],
+      data["pack2e"]
+    ];
+    getPackages()[2].programPrices = [
+      data["pack3a"],
+      data["pack3b"],
+      data["pack3c"],
+      data["pack3d"],
+      data["pack3e"]
+    ];
+    getPackages()[3].programPrices = [
+      data["pack4a"],
+      data["pack4b"],
+      data["pack4c"],
+      data["pack4d"],
+      data["pack4e"]
+    ];
+    getPackages()[4].programPrices = [
+      data["pack5a"],
+      data["pack5b"],
+      data["pack5c"],
+      data["pack5d"]
+    ];
+
+    getPackages()[0].packageDesc = data["pack1desc"];
+    getPackages()[1].packageDesc = data["pack2desc"];
+    getPackages()[2].packageDesc = data["pack3desc"];
+    getPackages()[3].packageDesc = data["pack4desc"];
+    getPackages()[4].packageDesc = data["pack5desc"];
+    getPackages()[5].packageDesc = data["pack6desc"];
+
+    getPackages()[5].programPrices = [data["pack6a"], data["pack6b"], data["pack6c"]];
+    isLoading = false;
+    setState(() {});
   }
+
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -109,37 +162,42 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                  flex: 3,
-                  child: ClipPath(
-                    clipper: BottomWaveClipper(),
-                    child: Container(
-                      color: Styles.yellowColor,
-                    ),
-                  )),
-              Expanded(
-                child: Container(),
-                flex: 8,
-              )
-            ],
-          ),
-          GridView.builder(
-              itemCount: 6,
-              shrinkWrap: true,
-              // physics: ClampingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 1.2),
-              itemBuilder: (context, index) {
-                return packageItem(context, index);
-              }),
-        ],
+      body: LoadingOverlay(
+        progressIndicator: CupertinoActivityIndicator(radius: 15),
+        isLoading: isLoading,
+        color: Colors.grey,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                    flex: 3,
+                    child: ClipPath(
+                      clipper: BottomWaveClipper(),
+                      child: Container(
+                        color: Styles.yellowColor,
+                      ),
+                    )),
+                Expanded(
+                  child: Container(),
+                  flex: 8,
+                )
+              ],
+            ),
+            GridView.builder(
+                itemCount: 6,
+                shrinkWrap: true,
+                // physics: ClampingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 15,
+                    childAspectRatio: 1.2),
+                itemBuilder: (context, index) {
+                  return packageItem(context, index);
+                }),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(bottom: 50),
@@ -281,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
     packDes = de;
     _setState(() {});
 
- /*   await translator
+    /*   await translator
         .translate(de, from: 'en', to: EasyLocalization.of(context).locale.languageCode)
         .then((value) {
       packDes = value.text;
@@ -303,9 +361,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         context: context,
         builder: (context) => StatefulBuilder(builder: (context, _setState) {
-          getDescTrans(index, _setState);
+              getDescTrans(index, _setState);
 
-          return ListView(
+              return ListView(
                 shrinkWrap: true,
                 children: [
                   Padding(

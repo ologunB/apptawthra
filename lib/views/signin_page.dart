@@ -186,7 +186,7 @@ class _SigninPageState extends State<SigninPage> {
   forgetPassword(context) {
     showModalBottomSheet(
       isScrollControlled: true,
-      shape: Box30Edge,
+      shape: myBox30Edge,
       context: context,
       builder: (context) => Container(
         padding: MediaQuery.of(context).viewInsets,

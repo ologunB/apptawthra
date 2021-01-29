@@ -8,7 +8,6 @@ import 'package:apptawthra/widgets/custom_dialog.dart';
 import 'package:apptawthra/widgets/network_image.dart';
  import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import '../order_done.dart';
@@ -289,65 +288,6 @@ class _CreateTweetScreenState extends State<CreateTweetScreen6> {
     );
   }
 
-/*  Future getImageCamera() async {
-    var img = await ImagePicker.platform.pickImage(source: ImageSource.camera);
-
-    if (img == null) return;
-    File file = File(img.path);
-    pickedImage = file;
-    selectedPictures.add(pickedImage);
-    setState(() {});
-  }
-
-  Future addImage(context) {
-    return showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                    //  loadAssets();
-                    //TODO     getImageGallery();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Choose Image from Gallery"),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                    //TODO    getImageCamera();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Take Image from Camera"),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }*/
-
-  Future getImageGallery(context) async {
-    final result = await ImagePicker().getImage(source: ImageSource.gallery);
-    File file;
-    if (result != null) {
-      file = File(result.path);
-    } else {
-      return;
-    }
-
-    setState(() {});
-  }
 
   void addAccount(context) async {
     await showDialog(

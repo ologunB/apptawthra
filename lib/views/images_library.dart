@@ -1,7 +1,6 @@
 import 'package:apptawthra/utils/constants.dart';
 import 'package:apptawthra/utils/spacing.dart';
 import 'package:apptawthra/widgets/custom_button.dart';
-import 'package:apptawthra/widgets/custom_button1.dart';
 import 'package:apptawthra/widgets/show_exception_alert_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

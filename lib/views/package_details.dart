@@ -29,7 +29,7 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
 
   @override
   void initState() {
-    controller = TextEditingController(text: widget.model.message);
+    controller = TextEditingController(text: widget.model.text);
     getCount();
     super.initState();
   }
@@ -39,8 +39,7 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
 
   getCount() async {
     try {
-      var dataRes = await dio.get(
-          "https://thatra.herokuapp.com/api/v1/package1/${widget.model.tweetId}",
+      var dataRes = await dio.get("https://thatra.herokuapp.com/api/v1/package1/${widget.model.id}",
           options: defaultOptions);
       print(dataRes.statusCode);
       if (dataRes.statusCode == 200) {
@@ -63,19 +62,19 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
     setState(() {});
 
     Map data = {
-      "id": 3,
-      "username": widget.model.account["screen_name"],
+      "id": widget.model.id,
+      "username": widget.model.username,
       "package_name": widget.model.package,
       "program": widget.model.program,
       "tweet_text": controller.text,
       "scheduled_at": widget.model.startTime,
-      "access_token": widget.model.account["oauth_token"],
-      "access_token_secret": widget.model.account["oauth_token_secret"],
+      "access_token": widget.model.accessToken,
+      "access_token_secret": widget.model.accessTokenSecret,
       "images": widget.model.images
     };
     try {
       var dataRes = await dio.patch(
-          "https://thatra.herokuapp.com/api/v1/package1/${widget.model.tweetId}",
+          "https://thatra.herokuapp.com/api/v1/package1/${widget.model.id}",
           data: data,
           options: defaultOptions);
       print(dataRes);
@@ -189,8 +188,7 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
                             context,
                             SafeArea(
                               child: WebView(
-                                initialUrl:
-                                    "https://twitter.com/" + widget.model.account["screen_name"],
+                                initialUrl: "https://twitter.com/" + widget.model.username,
                                 javascriptMode: JavascriptMode.unrestricted,
                                 navigationDelegate: (NavigationRequest request) {
                                   return NavigationDecision.navigate;
@@ -199,7 +197,7 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
                             ));
                       },
                       child: Text(
-                        "@${widget.model.account["screen_name"]}",
+                        "@${widget.model.username}",
                         style: GoogleFonts.nunito(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -232,7 +230,7 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
                           Text("Total",
                               style: GoogleFonts.nunito(
                                   fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey)),
-                          Text("$count / $total Tweets" ,
+                          Text("$count / $total Tweets",
                               style: GoogleFonts.nunito(
                                   fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black)),
                         ],
@@ -256,13 +254,12 @@ class _PackageItemDetailsState extends State<PackageItemDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                       ),
                       horizontalSpaceMedium,
-
                       Column(
                         children: [
                           Text("Daily Tweet",
                               style: GoogleFonts.nunito(
                                   fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey)),
-                          Text(widget.model.noOftweets + " Tweet(s)",
+                          Text(widget.model.noOftweets.toString() + " Tweet(s)",
                               style: GoogleFonts.nunito(
                                   fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black))
                         ],

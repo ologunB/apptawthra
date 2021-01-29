@@ -242,7 +242,7 @@ class _TypeSelectorState extends State<TypeSelector2> {
                                               children: <TextSpan>[
                                                 TextSpan(
                                                   text: "\$" +
-                                                      (double.parse(getPackages()[2]
+                                                      (double.parse(getPackages()[1]
                                                                   .programPrices[selectedIndex]) *
                                                               (length + 1))
                                                           .toString(),

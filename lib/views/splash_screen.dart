@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     User user = FirebaseAuth.instance.currentUser;
     IS_LOGGED_IN = user != null;
-    Future.delayed(Duration(seconds: 3)).then((value) {
+    Future.delayed(Duration(seconds: 2)).then((value) {
       moveToAndReplace(context, HomeScreen(isLoggedIn: IS_LOGGED_IN));
     });
     super.initState();

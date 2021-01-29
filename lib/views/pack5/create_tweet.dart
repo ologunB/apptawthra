@@ -1,5 +1,6 @@
 import 'package:apptawthra/models/twitter_acc.dart';
 import 'package:apptawthra/widgets/custom_dialog.dart';
+import 'package:apptawthra/widgets/show_alert_dialog.dart';
 import 'package:apptawthra/widgets/show_exception_alert_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +14,6 @@ import 'package:apptawthra/widgets/network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
@@ -177,7 +177,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                 leading: SizedBox(),
                 backgroundColor: Styles.appCanvasColor,
                 title: Text(
-                  "${"Package 3".tr()} - Program ${alphabets[widget.program]}",
+                  "${"Package 5".tr()} - Program ${alphabets[widget.program]}",
                   style: GoogleFonts.nunito(
                       fontSize: 14.0, color: Styles.colorBlack, fontWeight: FontWeight.bold),
                 ),
@@ -245,7 +245,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                                           ),
                                           child: Text(
                                             accountType == 0 && selectedAdminAccount != null
-                                                ? "@" + selectedAdminAccount.screen_name
+                                                ? "@" + selectedAdminAccount.screenName
                                                 : "TAWTRHA " + "Account".tr(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -298,7 +298,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                                           ),
                                           child: Text(
                                             accountType == 1 && selectedUserAccount != null
-                                                ? "@" + selectedUserAccount.screen_name
+                                                ? "@" + selectedUserAccount.screenName
                                                 : "Customer Account".tr(),
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.nunito(
@@ -309,46 +309,6 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                                 ));
                             }
                           })
-                    ],
-                  ),
-                  verticalSpaceSmall,
-                  InkWell(
-                    onTap: () => addImageFromLib(context),
-                    child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Styles.colorBlack),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.add, size: 22),
-                            horizontalSpaceMedium,
-                            Text(
-                              "Select Images From Library",
-                              style: TextStyle(color: Styles.colorBlack, fontSize: 16),
-                            ),
-                          ],
-                        )),
-                  ),
-                  verticalSpaceSmall,
-                  Row(
-                    children: [
-                      Checkbox(
-                          value: chooseRandomly,
-                          onChanged: (a) {
-                            chooseRandomly = !chooseRandomly;
-                            setState(() {});
-                          }),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          //border: Border.all(color: Styles.appPrimaryColor),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Text("Do you want to choose the images randomly",
-                            style: TextStyle(color: Styles.colorBlack)),
-                      ),
                     ],
                   ),
                   verticalSpaceSmall,
@@ -381,6 +341,32 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          images.isEmpty
+                              ? Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Styles.appBackground,
+                                  ),
+                                  child: InkWell(
+                                      onTap: () {
+                                        getImageGallery(context);
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add, size: 40),
+                                          verticalSpaceTiny,
+                                          Text(
+                                            "Add Image".tr(),
+                                            style: GoogleFonts.nunito(fontSize: 12),
+                                          )
+                                        ],
+                                      )),
+                                )
+                              : SizedBox(),
                           images.isEmpty
                               ? SizedBox()
                               : Expanded(
@@ -433,32 +419,64 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                                         }),
                                   ),
                                 ),
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Styles.appBackground,
-                            ),
-                            child: InkWell(
-                                onTap: () {
-                                  getImageGallery(context);
+                        ],
+                      ),
+                      verticalSpaceSmall,
+                      Row(
+                        children: [
+                          Text("Repetition:".tr(),
+                              style: GoogleFonts.nunito(
+                                  fontSize: 14.0,
+                                  color: Styles.colorBlack,
+                                  fontWeight: FontWeight.w600)),
+                          SizedBox(width: 12),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Styles.appBackground,
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: DropdownButton<String>(
+                                hint: Text(
+                                  "Select...".tr(),
+                                  style: GoogleFonts.nunito(
+                                      fontSize: 14.0,
+                                      color: Styles.colorBlack,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                value: repeatSelected,
+                                underline: SizedBox(),
+                                iconEnabledColor: Colors.blueAccent,
+                                dropdownColor: Styles.whiteColor,
+                                items:
+                                    ["Once", "Daily", "Weekly", "Monthly", "Annual"].map((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                      child: Text(
+                                        value.tr(),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  repeatSelected = value;
+
+                                  setState(() {});
                                 },
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.add, size: 40),
-                                    verticalSpaceTiny,
-                                    Text(
-                                      "Add Image".tr(),
-                                      style: GoogleFonts.nunito(fontSize: 12),
-                                    )
-                                  ],
-                                )),
+                              ),
+                            ),
                           ),
                         ],
                       ),
+                      verticalSpaceSmall,
                       Row(
                         children: [
                           Text("Choose Time:".tr(),
@@ -540,7 +558,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                         builder: (context) => CustomDialog(
                             title: "Confirmation".tr(),
                             body: Text(
-                              "Are you sure you want to create Package 3 on ${sele.screen_name}?"
+                              "Are you sure you want to create Package 3 on ${sele.screenName}?"
                                   .tr(),
                               style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600),
                             ),
@@ -557,6 +575,8 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
       ),
     );
   }
+
+  String repeatSelected;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -618,7 +638,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                                   ? Styles.appBackground
                                   : null,
                               leading: CachedImage(size: 40, imageUrl: "kk"),
-                              title: Text("@" + userKeys[index].screen_name,
+                              title: Text("@" + userKeys[index].screenName,
                                   style: GoogleFonts.nunito(
                                       fontSize: 16, fontWeight: FontWeight.w600)),
                               onTap: () {
@@ -677,7 +697,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                               ? Styles.appBackground
                               : null,
                           leading: CachedImage(size: 40, imageUrl: "kk"),
-                          title: Text("@" + adminKeys[index].screen_name,
+                          title: Text("@" + adminKeys[index].screenName,
                               style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600)),
                           onTap: () {
                             accountType = 0;
@@ -707,21 +727,24 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
     }
 
     Map<String, dynamic> mData = Map();
-    mData.putIfAbsent("account_type", () => types[accountType]);
-    mData.putIfAbsent("account_details", () => sele.toJson());
-    mData.putIfAbsent("message", () => textController.text);
-    mData.putIfAbsent("package", () => "Package 3");
+    mData.putIfAbsent("username", () => sele.screenName);
+    mData.putIfAbsent("package_name", () => "Package 4");
     mData.putIfAbsent("program", () => "Program ${alphabets[widget.program]}");
+    mData.putIfAbsent("tweet_text", () => textController.text);
+    mData.putIfAbsent("number_of_tweets_per_day", () => 1);
+    mData.putIfAbsent(
+        "period", () => convertToDays(getPackages()[4].programTitles[widget.program]));
+    mData.putIfAbsent("scheduled_at", () => selectedTimeDate);
     mData.putIfAbsent("images", () => images);
-    mData.putIfAbsent("daily rate", () => getPackages()[2].programDescs[widget.program]);
-    mData.putIfAbsent("id", () => randomString());
-    mData.putIfAbsent("desc", () => "Daily Tweet");
+    mData.putIfAbsent("access_token", () => sele.token);
+    mData.putIfAbsent("access_token_secret", () => sele.tokenSecret);
+    mData.putIfAbsent(
+        "desc", () => "Daily Tweet for ${getPackages()[4].programTitles[widget.program]}");
     mData.putIfAbsent("uid", () => FirebaseAuth.instance.currentUser.uid);
-    mData.putIfAbsent("price", () => getPackages()[2].programPrices[widget.program]);
+    mData.putIfAbsent("price", () => getPackages()[4].programPrices[widget.program]);
     mData.putIfAbsent("status", () => "Pending");
-    mData.putIfAbsent("start_time", () => selectedTimeDate);
     mData.putIfAbsent("Timestamp", () => timeStamp);
-    mData.putIfAbsent("tweet_id", () => "null");
+    mData.putIfAbsent("id", () => 0);
 
     if (accountType == 0) {
       mData.update("status", (a) => "Awaiting Approval");
@@ -744,7 +767,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                 from: selectedTimeDate,
                 package: "Package 3",
                 program: "Program ${alphabets[widget.program]}",
-                account: sele.screen_name));
+                account: sele.screenName));
       }).catchError((e) {
         setState(() {
           isLoading = false;
@@ -754,25 +777,13 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
       return;
     }
     try {
-      Map data = {
-        "username": sele.screen_name,
-        "package_name": "Package 3",
-        "program": widget.program.toString(),
-        "tweet_text": textController.text,
-        "number_of_tweets_per_day": getPackages()[2].programTitles[widget.program],
-        "period": "1",
-        "scheduled_at": selectedTimeDate,
-        "access_token": sele.token,
-        "access_token_secret": sele.token_secret,
-        "images": images
-      };
       var dataRes = await dio.post("https://thatra.herokuapp.com/api/v1/package1/",
-          options: defaultOptions, data: data);
+          options: defaultOptions, data: mData);
 
       print(dataRes);
       switch (dataRes.statusCode) {
         case 201:
-          mData.update("tweet_id", (a) => dataRes.data["id"]);
+          mData.update("id", (a) => dataRes.data["id"]);
           try {
             FirebaseFirestore.instance
                 .collection("Utils")
@@ -787,7 +798,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
                       from: selectedTimeDate,
                       package: "Package 3",
                       program: "Program ${alphabets[widget.program]}",
-                      account: sele.screen_name));
+                      account: sele.screenName));
             }).catchError((e) {
               setState(() {
                 isLoading = false;
@@ -806,128 +817,24 @@ class _CreateTweetScreenState extends State<CreateTweetScreen5> {
           setState(() {
             isLoading = false;
           });
-          throw dataRes.data["message"] ?? "Unknown Error";
+          showAlertDialog(
+              context: context,
+              content: dataRes.data["message"] ?? "Unknown Error",
+              title: "Error",
+              defaultActionText: "OK");
       }
     } catch (e) {
       print(e);
       setState(() {
         isLoading = false;
       });
+      showAlertDialog(
+          context: context,
+          content: DioErrorUtil.handleError(e),
+          title: "Error",
+          defaultActionText: "OK");
       throw DioErrorUtil.handleError(e);
     }
-  }
-
-  List<String> libImages;
-
-  addImageFromLib(BuildContext context) {
-    showModalBottomSheet(
-        //   isScrollControlled: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-        ),
-        context: context,
-        builder: (context) => Scaffold(
-              body: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("Utils")
-                      .doc("Images")
-                      .collection(FirebaseAuth.instance.currentUser.uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Center(child: CupertinoActivityIndicator());
-                      default:
-                        if (snapshot.data.documents.isNotEmpty) {
-                          libImages = [];
-                          snapshot.data.documents.map((document) {
-                            String item = document["url"];
-                            libImages.add(item);
-                          }).toList();
-                          return Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: StaggeredGridView.count(
-                              shrinkWrap: true,
-                              crossAxisCount: 4,
-                              children: libImages.map<Widget>((item) {
-                                return Builder(builder: (context) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (images.contains(item)) {
-                                        showSnackBar(context, "Alert", "Image Already Added");
-                                        return;
-                                      }
-                                      images.add({"image": item});
-                                      setState(() {});
-                                      Navigator.pop(context);
-                                    },
-                                    child: Center(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: CachedNetworkImage(
-                                          color: images.contains(item) ? Colors.grey : null,
-                                          imageUrl: item ?? "k",
-                                          height: 180,
-                                          width: screenWidth(context) / 2.2,
-                                          fit: BoxFit.fitWidth,
-                                          placeholder: (context, url) => Container(
-                                              height: 20,
-                                              width: 20,
-                                              child: CupertinoActivityIndicator()),
-                                          errorWidget: (context, url, error) => Container(
-                                            height: 180,
-                                            width: screenWidth(context) / 2.2,
-                                            decoration: new BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: new DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: AssetImage("images/placeholder.png"),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                });
-                              }).toList(),
-                              staggeredTiles: libImages
-                                  .map<StaggeredTile>((_) => StaggeredTile.fit(2))
-                                  .toList(),
-                              mainAxisSpacing: 15.0,
-                              crossAxisSpacing: 15.0,
-                            ),
-                          );
-                        } else {
-                          return Center(child: Text("Library is Empty, Add Images").tr());
-                        }
-                    }
-                  }),
-              bottomNavigationBar: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: CustomButton(
-                          title: "ADD IMAGE",
-                          onPressed: () {
-                            Navigator.pop(context);
-                            getImageGallery(context);
-                          }),
-                    ),
-                    horizontalSpaceMedium,
-                    Flexible(
-                      child: CustomButton(title: "PROCEED", onPressed: () {}),
-                    ),
-                  ],
-                ),
-              ),
-            ));
   }
 }
 
